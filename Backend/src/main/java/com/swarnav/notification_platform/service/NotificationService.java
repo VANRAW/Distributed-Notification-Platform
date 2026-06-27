@@ -16,6 +16,7 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+    private final RedisPublisher redisPublisher;
 
     public NotificationResponse createNotification(
             CreateNotificationRequest request){
@@ -34,6 +35,7 @@ public class NotificationService {
                 .build();
 
         notification = notificationRepository.save(notification);
+        redisPublisher.publish(String.valueOf(notification.getId()));
 
         return NotificationResponse.builder()
                 .id(notification.getId())
