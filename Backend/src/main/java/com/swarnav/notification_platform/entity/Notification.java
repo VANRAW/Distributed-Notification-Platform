@@ -36,9 +36,17 @@ public class Notification {
     @Column(nullable = false)
     private NotificationType notificationType;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private NotificationStatus status;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private NotificationStatus status = NotificationStatus.PENDING;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer retryCount = 0;
+
+    @Column
+    private LocalDateTime lastAttemptAt;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
